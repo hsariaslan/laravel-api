@@ -1,6 +1,13 @@
 @extends('layouts.admin')
 
 @section('main-content')
+    @if ($errors->has('message'))
+        <div class="alert alert-danger border-left-danger" role="alert">
+            @foreach($errors->all() as $error)
+                {{ $error }}
+            @endforeach
+        </div>
+    @endif
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800">{{ __('Get Client') }}</h1>
     <div class="row justify-content-center">

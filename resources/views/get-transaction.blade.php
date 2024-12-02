@@ -3,7 +3,9 @@
 @section('main-content')
     @if ($errors->has('message'))
         <div class="alert alert-danger border-left-danger" role="alert">
-            {{ $errors->first('message') }}
+            @foreach($errors->all() as $error)
+                {{ $error }}
+            @endforeach
         </div>
     @endif
     <!-- Page Heading -->

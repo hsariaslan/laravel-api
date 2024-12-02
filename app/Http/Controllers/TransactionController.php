@@ -38,6 +38,9 @@ class TransactionController extends Controller
 
         if (is_array($response->json()) && $response->json()['status'] === 'APPROVED') {
             $results = $response->json()['response'];
+        } else if ($response->json()['status'] === 'DECLINED') {
+            return view('report', compact('results', 'fromDate', 'toDate', 'merchant', 'acquirer'))
+                ->withErrors(["message" => $response->json()['message']]);
         }
 
         return view('report', compact('results', 'fromDate', 'toDate', 'merchant', 'acquirer'));

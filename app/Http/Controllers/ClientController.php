@@ -32,6 +32,11 @@ class ClientController extends Controller
         $customerInfo = null;
 
         if (!empty($response->json()['customerInfo'])) {
+            if ($response->json()['status'] === 'DECLINED') {
+                return view('client', compact('customerInfo', 'transactionId'))
+                    ->withErrors(["message" => $response->json()['message']]);
+            }
+
             $customerInfo = $response->json()['customerInfo'];
         }
 
