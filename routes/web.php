@@ -20,19 +20,9 @@ Route::middleware('check.jwt')->group(function () {
 
     Route::get('/about', [HomeController::class, 'index'])->name('about');
 
-//    Route::get('/transactions/report', function () {
-//        $response = Http::withHeaders([
-//            'Authorization' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtZXJjaGFudFVzZXJJZCI6NTMsInJvbGUiOiJ1c2VyIiwibWVyY2hhbnRJZCI6Mywic3ViTWVyY2hhbnRJZHMiOlszLDc0LDkzLDExOTEsMTI5NSwxMTEsMTM3LDEzOCwxNDIsMTQ1LDE0NiwxNTMsMzM0LDE3NSwxODQsMjIwLDIyMSwyMjIsMjIzLDI5NCwzMjIsMzIzLDMyNywzMjksMzMwLDM0OSwzOTAsMzkxLDQ1NSw0NTYsNDc5LDQ4OCw1NjMsMTE0OSw1NzAsMTEzOCwxMTU2LDExNTcsMTE1OCwxMTc5LDEyOTMsMTI5NCwxMzA2LDEzMDcsMTMyNCwxMzMxLDEzMzgsMTMzOSwxMzQxLDEzNDYsMTM0NywxMzQ4LDEzNDksMTM1MywxMzgzLDEzODQsMTM4NV0sInRpbWVzdGFtcCI6MTczMzA4ODYzMn0.Mo3HituG7VNAzSY2fdtNUst9FldBn6eOYJc_RX9mxmM',
-//            'Accept' => 'application/json',
-//        ])->post('https://sandbox-reporting.rpdpymnt.com/api/v3/transactions/report', [
-//            'fromDate' => '2020-07-01',
-//            'toDate' => '2024-12-03',
-//            'merchant' => 1,
-//            'acquirer' => 1,
-//        ]);
-//
-//        return $response->body();
-//    });
+    Route::prefix('/proxy')->group(function () {
+        Route::post('/transactions/report', [TransactionController::class, 'reportAjax'])->name('transactions.report.ajax');
+    });
 });
 
 Route::get('/transaction/list', function () {

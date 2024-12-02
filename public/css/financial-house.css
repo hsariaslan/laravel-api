@@ -1,0 +1,11 @@
+#loadingTbody {
+    display: none;
+}
+
+#loadingTbody img {
+    width: 70px;
+}
+
+#transactionReportAjaxBody {
+    display: none;
+}
