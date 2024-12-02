@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class TransactionController extends Controller
 {
-    public function index(): View|Factory|Application
+    public function report(): View|Factory|Application
     {
-        return view('home');
+        return view('report');
     }
 }
