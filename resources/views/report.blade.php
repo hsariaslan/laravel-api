@@ -17,7 +17,7 @@
                                             <label for="from-date" class="mt-2">From Date:</label>
                                         </div>
                                         <div class="col-9">
-                                            <input type="text" class="datepicker" id="from-date" name="from_date"
+                                            <input type="text" class="datepicker input-group-text" id="from-date" name="from_date"
                                                    value="{{ $fromDate ? date("m/d/Y", strtotime($fromDate)) : date("m/d/Y") }}">
                                         </div>
                                     </div>
@@ -28,7 +28,7 @@
                                             <label for="to-date" class="mt-2">To Date:</label>
                                         </div>
                                         <div class="col-9">
-                                            <input type="text" class="datepicker" id="to-date" name="to_date"
+                                            <input type="text" class="datepicker input-group-text" id="to-date" name="to_date"
                                                    value="{{ $toDate ? date("m/d/Y", strtotime($toDate)) : date("m/d/Y") }}">
                                         </div>
                                     </div>
@@ -60,7 +60,7 @@
                                 <div class="col-2">
                                     <div class="row">
                                         <div class="col-12">
-                                            <button class="btn btn-primary w-100" id="transactionReportButton" type="submit">Filter</button>
+                                            <button class="btn btn-primary w-100" type="submit">Filter</button>
                                         </div>
                                     </div>
                                 </div>

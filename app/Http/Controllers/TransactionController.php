@@ -42,6 +42,7 @@ class TransactionController extends Controller
 
         return view('report', compact('results', 'fromDate', 'toDate', 'merchant', 'acquirer'));
     }
+
     /**
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
