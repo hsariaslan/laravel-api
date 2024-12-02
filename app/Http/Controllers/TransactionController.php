@@ -83,6 +83,40 @@ class TransactionController extends Controller
      * @throws NotFoundExceptionInterface
      * @throws ConnectionException
      */
+    public function getTransaction(Request $request): View|Factory|Application
+    {
+        $transactionId = $request->transaction_id ?? "1-1444392550-1";
+
+        $response = $this->makeRequest('/transaction', [
+            'transactionId' => $transactionId,
+        ]);
+
+        $fxMerchant = null;
+        $customerInfo = null;
+        $merchant = null;
+        $transactionMerchant = null;
+
+        if (!empty($response->json())) {
+            if ($response->json()['status'] === 'DECLINED') {
+                return view('get-transaction', compact('transactionId', 'fxMerchant', 'customerInfo', 'merchant', 'transactionMerchant'))
+                    ->withErrors(["message" => $response->json()['message']]);
+            }
+
+            $response = $response->json();
+            $fxMerchant = $response['fx']['merchant'];
+            $customerInfo = $response['customerInfo'];
+            $merchant = $response['merchant'];
+            $transactionMerchant = $response['transaction']['merchant'];
+        }
+
+        return view('get-transaction', compact('transactionId', 'fxMerchant', 'customerInfo', 'merchant', 'transactionMerchant'));
+    }
+
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws ConnectionException
+     */
     private function makeRequest(string $endpoint, array $data): PromiseInterface|Response
     {
         return Http::withHeaders([

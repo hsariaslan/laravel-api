@@ -64,6 +64,14 @@
             </a>
         </li>
 
+        <!-- Nav Item - About -->
+        <li class="nav-item {{ Request::is('get_transaction') }}">
+            <a class="nav-link" href="{{ route('get_transaction') }}">
+                <i class="fas fa-fw fa-clipboard-list"></i>
+                <span>{{ __('Get Transaction') }}</span>
+            </a>
+        </li>
+
         <!-- Heading -->
         <div class="sidebar-heading">
             {{ __('Client') }}
