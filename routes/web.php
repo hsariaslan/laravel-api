@@ -17,12 +17,15 @@ Route::middleware('check.jwt')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::get('/report', [TransactionController::class, 'report'])->name('report');
+    Route::get('/transaction-query', [TransactionController::class, 'transactionQuery'])->name('transaction_query');
     Route::get('/get-transaction', [TransactionController::class, 'getTransaction'])->name('get_transaction');
 
     Route::get('/client', [ClientController::class, 'index'])->name('client');
 
     Route::prefix('/proxy')->group(function () {
         Route::post('/transactions/report', [TransactionController::class, 'reportAjax'])->name('transactions.report.ajax');
+        Route::post('/transactions/query', [TransactionController::class, 'transactionQueryAjax'])->name('transactions.query.ajax');
+        Route::post('/get-transaction', [TransactionController::class, 'getTransactionAjax'])->name('get.transaction.ajax');
         Route::post('/client', [ClientController::class, 'clientAjax'])->name('client.ajax');
     });
 });

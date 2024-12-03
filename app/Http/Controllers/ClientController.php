@@ -7,6 +7,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Http;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -23,7 +24,7 @@ class ClientController extends Controller
         $transactionId = $request->transaction_id ?? "1-1444392550-1";
 
         $response = Http::withHeaders([
-            'Authorization' => session()->get('jwt_token'),
+            'Authorization' => Cookie::get('jwt_token'),
             'Accept' => 'application/json',
         ])->post(env('API_URL') . '/client', [
             'transactionId' => $transactionId,
@@ -52,7 +53,7 @@ class ClientController extends Controller
         $transactionId = $request->transaction_id;
 
         $response = Http::withHeaders([
-            'Authorization' => session()->get('jwt_token'),
+            'Authorization' => Cookie::get('jwt_token'),
             'Accept' => 'application/json',
         ])->post(env('API_URL') . '/client', [
             'transactionId' => $transactionId,

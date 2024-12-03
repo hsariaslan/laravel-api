@@ -9,3 +9,7 @@
 #transactionReportAjaxBody {
     display: none;
 }
+
+#pagination svg {
+    width: 32px;
+}

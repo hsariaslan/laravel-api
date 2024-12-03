@@ -128,7 +128,7 @@ $(() => {
                 "Accept": "application/json",
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            url: "/proxy/client",
+            url: "/proxy/get-transaction",
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(formData),
@@ -197,6 +197,129 @@ $(() => {
             },
             error: function(xhr) {
                 console.error('Error:', xhr.responseText);
+            }
+        });
+    });
+
+    $("#transactionQueryForm").on("submit", function(e) {
+        e.preventDefault();
+
+        $("#loadingTbody").css("display", "table-row");
+        $("#transactionQueryBody").css("display", "none");
+
+        let formData = {};
+
+        if ($("#from-date").val()) {
+            let [month, day, year] = $("#from-date").val().split('/');
+            const fromDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+
+            formData.from_date = fromDate;
+        }
+
+        if ($("#to-date").val()) {
+            let [month, day, year] = $("#to-date").val().split('/');
+            const toDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+
+            formData.to_date = toDate;
+        }
+
+        if ($("#merchant_id").val()) {
+            formData.merchant_id = $("#merchant_id").val();
+        }
+
+        if ($("#acquirer_id").val()) {
+            formData.acquirer_id = $("#acquirer_id").val();
+        }
+
+        if ($("#status").val()) {
+            formData.status = $("#status").val();
+        }
+
+        if ($("#operation").val()) {
+            formData.operation = $("#operation").val();
+        }
+
+        if ($("#payment_method").val()) {
+            formData.payment_method = $("#payment_method").val();
+        }
+
+        if ($("#error_code").val()) {
+            formData.error_code = $("#error_code").val();
+        }
+
+        if ($("#filter_field").val()) {
+            formData.filter_field = $("#filter_field").val();
+        }
+
+        if ($("#filter_value").val()) {
+            formData.filter_value = $("#filter_value").val();
+        }
+
+        // console.log(formData)
+
+        $.ajax({
+            headers: {
+                "Authorization": sessionStorage.getItem('jwt_token'),
+                "Accept": "application/json",
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: "/proxy/transactions/query",
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(formData),
+            success: function(data) {
+                console.log(data);
+                $("#loadingTbody").css("display", "none");
+                $("#transactionQueryAjaxBody").css("display", "table-row");
+
+                let htmlData = '';
+                data.data?.forEach(function(item, index) {
+                    const dataRow = item.data;
+
+                    htmlData += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${dataRow?.fx?.merchant?.originalAmount + ' ' + dataRow?.fx?.merchant?.originalCurrency}</td>
+                        <td>${dataRow?.customerInfo?.billingFirstName + ' ' + dataRow?.customerInfo?.billingLastName}</td>
+                        <td>${dataRow?.merchant?.name}</td>
+                        <td>${(dataRow?.ipn?.received) ? `<p className='text-success'>Received</p>` : `<p className='text-danger'>Not Received</p>`}</td>
+                        <td>
+                            ${dataRow?.transaction?.forEach(function (transactionItem) {
+                                switch (transactionItem) {
+                                    case "APPROVED":
+                                        `<span class='text-success'>APROVED</span>`
+                                        break;
+                                    case "WAITING":
+                                        `<span class='text-warning'>WAITING</span>`
+                                        break;
+                                    case "DECLINED":
+                                        `<span class='text-danger'>DECLINED</span>`
+                                        break;
+                                    case "ERROR":
+                                        `<span class='text-danger'>ERROR</span>`
+                                        break;
+                                }
+                                " / "
+                                transactionItem?.operation
+                            })}
+                        </td>
+                        <td>
+                            ${dataRow?.acquirer?.name + " / "}
+                            <span class='text-info'>${dataRow?.acquirer?.type}</span>
+                        </td>
+                        <td>${(dataRow?.refundable) ? `<p class='text-success'>True</p>` : `<p class='text-danger'>False</p>`}</td>
+                    </tr>
+                    `;
+                });
+
+                $("#transactionQueryAjaxBody").html(htmlData);
+                $("#pagination").html(data.paginator);
+            },
+            error: function(xhr) {
+                $("#transactionQueryErrors").text(xhr?.responseText?.message);
+                $("#loadingTbody").css("display", "none");
+                $("#paginationTFoot").css("display", "none");
+                $("#transactionQueryAjaxBody").css("display", "block");
             }
         });
     });

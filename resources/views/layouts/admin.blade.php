@@ -65,6 +65,14 @@
         </li>
 
         <!-- Nav Item - About -->
+        <li class="nav-item {{ Request::is('transaction_query') }}">
+            <a class="nav-link" href="{{ route('transaction_query') }}">
+                <i class="fas fa-fw fa-clipboard-question"></i>
+                <span>{{ __('Transaction Query') }}</span>
+            </a>
+        </li>
+
+        <!-- Nav Item - About -->
         <li class="nav-item {{ Request::is('get_transaction') }}">
             <a class="nav-link" href="{{ route('get_transaction') }}">
                 <i class="fas fa-fw fa-clipboard-list"></i>

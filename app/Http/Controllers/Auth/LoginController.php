@@ -6,18 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
-    public function __construct(Request $request)
-    {
-        if ($request->session()->has('jwt_token')) {
-            return redirect()->route('home');
-        }
-    }
-
     public function index(): Renderable
     {
         return view('auth.login');
@@ -38,7 +32,7 @@ class LoginController extends Controller
 
             if ($response->successful()) {
                 $token = $response->json()['token'];
-                session(['jwt_token' => $token]);
+                Cookie::queue('jwt_token', $token, 10);
 
                 return redirect()->route('home');
             }
@@ -51,13 +45,13 @@ class LoginController extends Controller
         }
     }
 
-    public function logout(Request $request): RedirectResponse
+    public function logout(): RedirectResponse
     {
-        if (!$request->session()->has('jwt_token')) {
+        if (!Cookie::has('jwt_token')) {
             return redirect()->back();
         }
 
-        session()->forget('jwt_token');
+        Cookie::queue(Cookie::forget('jwt_token'));
 
         return redirect()->route('login');
     }
