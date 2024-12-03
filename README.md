@@ -1,4 +1,4 @@
-[Live Demo](https://sariaslan.org)
+[Live Demo](https://sariaslan.org/financial-house)
 
 # Project Installation
 ```
