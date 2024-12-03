@@ -25,7 +25,7 @@ $(() => {
                 "Accept": "application/json",
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            url: "/proxy/transactions/report",
+            url: "/financial-house/proxy/transactions/report",
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(formData),
@@ -64,7 +64,7 @@ $(() => {
                 "Accept": "application/json",
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            url: "/proxy/client",
+            url: "/financial-house/proxy/client",
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(formData),
@@ -128,7 +128,7 @@ $(() => {
                 "Accept": "application/json",
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            url: "/proxy/get-transaction",
+            url: "/financial-house/proxy/get-transaction",
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(formData),
@@ -263,7 +263,7 @@ $(() => {
                 "Accept": "application/json",
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            url: "/proxy/transactions/query",
+            url: "/financial-house/proxy/transactions/query",
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(formData),
